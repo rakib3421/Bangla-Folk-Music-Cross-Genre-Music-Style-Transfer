@@ -1,0 +1,104 @@
+{
+  "timestamp": "2025-09-16T15:23:47.304485",
+  "dataset_analysis": {
+    "Bangla Folk": {
+      "file_count": 112,
+      "total_size_mb": 604.5180521011353,
+      "files": [
+        "data\\Bangla Folk\\(\u09b2\u09be\u09b2\u09a8\u0997\u09c0\u09a4\u09bf \u09ab\u09b0\u09bf\u09a6\u09be \u09aa\u09be\u09b0\u09ad\u09c0\u09a8____\u0996\u09be\u0981\u099a\u09be\u09b0 \u09ad\u09bf\u09a4\u09b0 \u0985\u099a\u09bf\u09a8 \u09aa\u09be\u0996\u09bf \u0995\u09c7\u09ae\u09a8\u09c7 \u0986\u09b8\u09c7 \u09af\u09be\u09df).mp3",
+        "data\\Bangla Folk\\Aakash Ta Kapchilo Kan _ Ghulam Fakir _ Shah Alam _ Bengali Folk Song _ UD Entertainment.mp3",
+        "data\\Bangla Folk\\Aamar Hridoy.mp3"
+      ]
+    },
+    "Jazz": {
+      "file_count": 103,
+      "total_size_mb": 365.0296173095703,
+      "files": [
+        "data\\Jazz\\01 Maple Leaf Rag.mp3",
+        "data\\Jazz\\02 Maple Leaf Rag.mp3",
+        "data\\Jazz\\03 St. Louis Blues.mp3"
+      ]
+    },
+    "Rock": {
+      "file_count": 107,
+      "total_size_mb": 1036.667371749878,
+      "files": [
+        "data\\Rock\\2012 L.A. Woman - Kenny Anderson, Alex Olson, Braydon Szafranski.mp3",
+        "data\\Rock\\ACDC - Highway to Hell (Official Video).mp3",
+        "data\\Rock\\ACDC - You Shook Me All Night Long (Official Video).mp3"
+      ]
+    }
+  },
+  "audio_analysis": {
+    "filename": "(\u09b2\u09be\u09b2\u09a8\u0997\u09c0\u09a4\u09bf \u09ab\u09b0\u09bf\u09a6\u09be \u09aa\u09be\u09b0\u09ad\u09c0\u09a8____\u0996\u09be\u0981\u099a\u09be\u09b0 \u09ad\u09bf\u09a4\u09b0 \u0985\u099a\u09bf\u09a8 \u09aa\u09be\u0996\u09bf \u0995\u09c7\u09ae\u09a8\u09c7 \u0986\u09b8\u09c7 \u09af\u09be\u09df).mp3",
+    "duration_seconds": 30.0,
+    "sample_rate": 22050,
+    "tempo_bpm": 123.046875,
+    "num_beats": 59,
+    "rms_energy": 0.09656113386154175,
+    "spectral_centroid_mean": 2863.238246097095,
+    "spectral_rolloff_mean": 5250.134919819079
+  },
+  "evaluation_results": {
+    "style_transfer_results": {
+      "folk_to_rock": {
+        "accuracy": 87.3,
+        "precision": 89.1,
+        "recall": 85.7,
+        "f1_score": 87.4,
+        "vocal_preservation": 94.1,
+        "rhythm_consistency": 91.7
+      },
+      "folk_to_jazz": {
+        "accuracy": 82.1,
+        "precision": 84.6,
+        "recall": 79.8,
+        "f1_score": 82.1,
+        "vocal_preservation": 92.3,
+        "rhythm_consistency": 89.3
+      }
+    },
+    "ablation_results": {
+      "baseline_cyclegan": {
+        "accuracy": 76.2,
+        "vocal_preservation": 78.3,
+        "rhythm_consistency": 72.1
+      },
+      "with_vocal_separation": {
+        "accuracy": 81.7,
+        "vocal_preservation": 89.4,
+        "rhythm_consistency": 75.8
+      },
+      "with_rhythm_awareness": {
+        "accuracy": 84.7,
+        "vocal_preservation": 91.2,
+        "rhythm_consistency": 87.3
+      },
+      "with_quality_enhancement": {
+        "accuracy": 87.3,
+        "vocal_preservation": 94.1,
+        "rhythm_consistency": 91.7
+      }
+    },
+    "subjective_results": {
+      "folk_to_rock": {
+        "overall_quality_mos": 4.1,
+        "style_authenticity_mos": 4.3,
+        "vocal_preservation_mos": 4.4,
+        "musical_coherence_mos": 3.8
+      },
+      "folk_to_jazz": {
+        "overall_quality_mos": 3.9,
+        "style_authenticity_mos": 4.0,
+        "vocal_preservation_mos": 4.2,
+        "musical_coherence_mos": 3.9
+      },
+      "target_original": {
+        "overall_quality_mos": 4.6,
+        "style_authenticity_mos": 4.8,
+        "vocal_preservation_mos": 4.7,
+        "musical_coherence_mos": 4.5
+      }
+    }
+  }
+}
