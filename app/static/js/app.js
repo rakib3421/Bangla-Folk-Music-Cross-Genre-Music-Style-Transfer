@@ -294,6 +294,10 @@ class StyleTransferApp {
         
         originalAudio.src = URL.createObjectURL(this.uploadedFile);
         
+        // Set transformed audio source - extract task ID from download URL
+        const taskId = downloadUrl.split('/').pop();
+        transformedAudio.src = `/audio/${taskId}`;
+        
         // Set download URL
         document.getElementById('downloadBtn').onclick = () => {
             window.open(downloadUrl, '_blank');

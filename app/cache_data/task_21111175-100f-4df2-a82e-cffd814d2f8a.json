@@ -1,0 +1,7 @@
+{
+  "task_id": "21111175-100f-4df2-a82e-cffd814d2f8a",
+  "status": "failed",
+  "message": "operands could not be broadcast together with shapes (16506880,) (0,) (16506880,) ",
+  "result_path": null,
+  "updated_at": "2025-09-16T14:50:00.677059"
+}

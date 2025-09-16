@@ -28,6 +28,55 @@ class AudioPreprocessor:
         self.target_format = target_format
         self.segment_duration = segment_duration
         
+    def load_audio(self, file_path):
+        """
+        Load audio file for processing (required by Flask app).
+        
+        Args:
+            file_path (str): Path to audio file
+            
+        Returns:
+            tuple: (audio_data, sample_rate)
+        """
+        try:
+            print(f"DEBUG: load_audio called with file_path={file_path}")
+            print(f"DEBUG: file exists: {os.path.exists(file_path) if isinstance(file_path, str) else 'not a string'}")
+            
+            y, sr = librosa.load(file_path, sr=self.target_sr, mono=True)
+            # Normalize audio
+            y = librosa.util.normalize(y)
+            print(f"DEBUG: Successfully loaded audio, shape={y.shape}, sr={sr}")
+            return y, sr
+        except Exception as e:
+            print(f"Error loading audio {file_path}: {str(e)}")
+            print(f"DEBUG: Exception type: {type(e)}")
+            raise
+    
+    def save_audio(self, audio, output_path, sr):
+        """
+        Save audio to file (required by Flask app).
+        
+        Args:
+            audio: Audio data (numpy array)
+            output_path: Output file path
+            sr: Sample rate
+        """
+        try:
+            # Debug print to understand the parameters
+            print(f"DEBUG: save_audio called with audio.shape={getattr(audio, 'shape', 'no shape')}, output_path={output_path}, sr={sr}")
+            
+            sf.write(output_path, audio, sr, subtype='PCM_16')
+            print(f"Successfully saved audio to: {output_path}")
+        except Exception as e:
+            print(f"Error saving audio to '{output_path}' with sr={sr}: {str(e)}")
+            # Try alternative method without subtype
+            try:
+                sf.write(output_path, audio, sr)
+                print(f"Successfully saved audio using fallback method: {output_path}")
+            except Exception as e2:
+                print(f"Fallback save also failed: {str(e2)}")
+                raise e
+        
     def standardize_audio_file(self, input_path, output_path):
         """
         Convert audio file to standard format with normalization.
