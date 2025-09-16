@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangla Folk Style Transfer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-music"></i>
+                <h1>Bangla Folk Style Transfer</h1>
+            </div>
+            <nav class="nav">
+                <a href="#upload" class="nav-link active">Upload</a>
+                <a href="#history" class="nav-link">History</a>
+                <a href="#api" class="nav-link">API</a>
+                <a href="#about" class="nav-link">About</a>
+            </nav>
+        </header>
+
+        <main class="main">
+            <!-- Upload Section -->
+            <section id="upload" class="section active">
+                <div class="upload-container">
+                    <h2>Transform Your Bangla Folk Music</h2>
+                    <p class="subtitle">Upload your folk song and transform it into Rock or Jazz style</p>
+                    
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-content">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <h3>Drag & Drop Audio File</h3>
+                            <p>or <span class="browse-text">browse files</span></p>
+                            <input type="file" id="audioFile" accept=".mp3,.wav,.flac,.m4a,.ogg" hidden>
+                            <div class="file-types">
+                                <span>Supported: MP3, WAV, FLAC, M4A, OGG</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="file-info" id="fileInfo" style="display: none;">
+                        <div class="file-preview">
+                            <i class="fas fa-file-audio"></i>
+                            <div class="file-details">
+                                <span class="file-name" id="fileName"></span>
+                                <span class="file-size" id="fileSize"></span>
+                            </div>
+                            <button class="remove-file" id="removeFile">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <audio controls class="audio-player" id="audioPlayer"></audio>
+                    </div>
+
+                    <div class="style-options">
+                        <h3>Select Target Style</h3>
+                        <div class="style-grid">
+                            <div class="style-option" data-style="rock">
+                                <div class="style-icon">
+                                    <i class="fas fa-guitar"></i>
+                                </div>
+                                <h4>Rock</h4>
+                                <p>Powerful drums, electric guitars, energetic rhythm</p>
+                            </div>
+                            <div class="style-option" data-style="jazz">
+                                <div class="style-icon">
+                                    <i class="fas fa-saxophone"></i>
+                                </div>
+                                <h4>Jazz</h4>
+                                <p>Smooth improvisation, complex harmonies, swing rhythm</p>
+                            </div>
+                            <div class="style-option" data-style="blend">
+                                <div class="style-icon">
+                                    <i class="fas fa-palette"></i>
+                                </div>
+                                <h4>Rock-Jazz Blend</h4>
+                                <p>Fusion of both styles with balanced characteristics</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="intensity-control">
+                        <h3>Style Intensity</h3>
+                        <div class="slider-container">
+                            <input type="range" id="intensitySlider" min="0.1" max="1.0" step="0.1" value="0.7">
+                            <div class="slider-labels">
+                                <span>Subtle</span>
+                                <span id="intensityValue">70%</span>
+                                <span>Dramatic</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="transform-btn" id="transformBtn" disabled>
+                        <i class="fas fa-magic"></i>
+                        Transform Audio
+                    </button>
+                </div>
+            </section>
+
+            <!-- Processing Section -->
+            <section id="processing" class="section">
+                <div class="processing-container">
+                    <div class="processing-animation">
+                        <div class="waveform">
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                        </div>
+                    </div>
+                    <h2>Processing Your Audio</h2>
+                    <p class="processing-message" id="processingMessage">Analyzing audio features...</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <button class="cancel-btn" id="cancelBtn">Cancel Processing</button>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="results" class="section">
+                <div class="results-container">
+                    <div class="success-animation">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2>Style Transfer Complete!</h2>
+                    <p>Your Bangla folk song has been transformed</p>
+                    
+                    <div class="audio-comparison">
+                        <div class="audio-item">
+                            <h3>Original</h3>
+                            <audio controls class="audio-player" id="originalAudio"></audio>
+                        </div>
+                        <div class="audio-item">
+                            <h3>Transformed</h3>
+                            <audio controls class="audio-player" id="transformedAudio"></audio>
+                        </div>
+                    </div>
+
+                    <div class="result-actions">
+                        <button class="download-btn" id="downloadBtn">
+                            <i class="fas fa-download"></i>
+                            Download Result
+                        </button>
+                        <button class="share-btn" id="shareBtn">
+                            <i class="fas fa-share"></i>
+                            Share
+                        </button>
+                        <button class="new-transform-btn" id="newTransformBtn">
+                            <i class="fas fa-plus"></i>
+                            New Transform
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section id="history" class="section">
+                <div class="history-container">
+                    <h2>Processing History</h2>
+                    <div class="history-list" id="historyList">
+                        <!-- History items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- API Section -->
+            <section id="api" class="section">
+                <div class="api-container">
+                    <h2>API Documentation</h2>
+                    <div class="api-info">
+                        <h3>RESTful API Endpoints</h3>
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method post">POST</span>
+                                <span class="url">/api/v1/upload</span>
+                            </div>
+                            <p>Upload audio file for style transfer</p>
+                        </div>
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method get">GET</span>
+                                <span class="url">/api/v1/status/{task_id}</span>
+                            </div>
+                            <p>Get processing status</p>
+                        </div>
+                        <div class="endpoint">
+                            <div class="endpoint-header">
+                                <span class="method get">GET</span>
+                                <span class="url">/api/v1/download/{task_id}</span>
+                            </div>
+                            <p>Download processed audio</p>
+                        </div>
+                    </div>
+                    
+                    <div class="api-key-section">
+                        <h3>API Key Management</h3>
+                        <button class="generate-key-btn" id="generateKeyBtn">Generate API Key</button>
+                        <div class="api-keys" id="apiKeys"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="section">
+                <div class="about-container">
+                    <h2>About Bangla Folk Style Transfer</h2>
+                    <p>This application uses advanced neural audio processing to transform traditional Bangla folk music into modern Rock and Jazz styles while preserving the cultural essence and emotional content of the original songs.</p>
+                    
+                    <div class="features">
+                        <div class="feature">
+                            <i class="fas fa-brain"></i>
+                            <h3>AI-Powered</h3>
+                            <p>Advanced neural networks analyze and transform musical styles</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-heart"></i>
+                            <h3>Cultural Preservation</h3>
+                            <p>Maintains the emotional and cultural essence of folk music</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-clock"></i>
+                            <h3>Real-time Processing</h3>
+                            <p>Fast processing with live progress updates</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Bangla Folk Style Transfer. Made with ❤️ for music lovers.</p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal" id="errorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Error</h3>
+                <button class="close-modal" id="closeErrorModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="closeErrorBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
