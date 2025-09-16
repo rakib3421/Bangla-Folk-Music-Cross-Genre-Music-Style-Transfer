@@ -1,0 +1,40 @@
+{
+  "model_config": {
+    "base_generator_channels": 32,
+    "base_discriminator_channels": 32,
+    "n_residual_blocks": 4,
+    "input_height": 64,
+    "input_width": 64,
+    "n_mels": 64
+  },
+  "training_config": {
+    "batch_size": 2,
+    "learning_rate": 0.0001,
+    "max_epochs_phase1": 20,
+    "max_epochs_phase2": 30,
+    "gradient_accumulation_steps": 4,
+    "mixed_precision": false,
+    "num_workers": 0
+  },
+  "audio_config": {
+    "sample_rate": 16000,
+    "n_fft": 1024,
+    "hop_length": 256,
+    "segment_length": 2.0,
+    "max_files_per_genre": 10
+  },
+  "memory_config": {
+    "pin_memory": false,
+    "persistent_workers": false,
+    "prefetch_factor": 1,
+    "enable_checkpointing": true
+  },
+  "loss_config": {
+    "lambda_cycle": 5.0,
+    "lambda_identity": 0.25,
+    "lambda_perceptual": 0.5,
+    "lambda_rhythm": 0.5,
+    "lambda_spectral": 0.5
+  },
+  "device": "cpu"
+}
