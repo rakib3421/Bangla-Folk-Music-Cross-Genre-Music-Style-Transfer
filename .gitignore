@@ -177,3 +177,15 @@ Bangla Folk → Rock_Jazz style transfer.pdf
 config/local.yml
 config/secrets.yml
 *.secret
+
+# Development and experiment files
+experiments/
+test_monitoring_experiment/
+demo_checkpoints/
+analysis_results/
+demo_results/
+processed_data_advanced/
+cpu_optimized_config.json
+*_SUMMARY.md
+TRAINING_STATUS_REPORT.md
+PROJECT_READY.md
